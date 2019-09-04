@@ -3,17 +3,14 @@ function rand(par) {
 }
 
 function isEven(value) {
-  if (value%2 == 0)
-    return true;
-  else
-    return false;
+  return value % 2 == 0
 }
 
 let times;
 
-function brandName(times) {
-  const firstLetter = 'A';
-  let length = 5;
+function brandName(times, firstLetter, length) {
+  firstLetter = firstLetter.toUpperCase();
+  let brands = [];
   length = length - firstLetter.toString().length;
   let consonant = ['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','w','x','z'];
   let vowel = ['a','e','i','o','u','y'];
@@ -27,11 +24,25 @@ function brandName(times) {
       else
         brand += vowel[rand(vowel.length)];
     }
-    brandName = firstLetter + brand;
-    console.log(brandName + '\n');
+    brands.push(firstLetter + brand);
   }
+  return brands;
 }
 
-brandName(30);
+function run() {
+  const form = document.querySelector(".config-form");
+  const resultContainer = document.querySelector(".result-container");
 
+  const {first_letter: firstLetterInput, length: lengthInput, count: countInput} = form;
+  const firstLetter = firstLetterInput.value;
+  const length = lengthInput.value;
+  const count = countInput.value;
 
+  const brands = brandName(count, firstLetter, length);
+
+  resultContainer.innerHTML = brands.join("<br>");
+}
+
+document.querySelector(".generate-button").addEventListener("click", () => {
+  run();
+})
