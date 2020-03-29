@@ -1,3 +1,6 @@
+let consonants = ['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','w','x','z'];
+let vowels = ['a','e','i','o','u','y'];
+
 function rand(par) {
   return Math.floor(Math.random() * par);
 }
@@ -8,22 +11,40 @@ function isEven(value) {
 
 let times;
 
+function isVowel(letter) {
+  return vowels.indexOf(letter.toLowerCase()) !== -1
+}
+
 function brandName(times, firstLetter, length) {
-  firstLetter = firstLetter.toUpperCase();
+  const firstLetterIsVowel = isVowel(firstLetter);
   let brands = [];
+
+  firstLetter = firstLetter.toUpperCase();
   length = length - firstLetter.toString().length;
-  let consonant = ['b','c','d','f','g','h','j','k','l','m','n','p','r','s','t','w','x','z'];
-  let vowel = ['a','e','i','o','u','y'];
-  let i = 0;
-  let a = 0;
-  for (a = 0; a < times; a++) { 
+
+  for (let a = 0; a < times; a++) {
     let brand = '';
-    for (i = 0; i < length; i++) {
-      if (isEven(i))
-        brand += consonant[rand(consonant.length)];
-      else
-        brand += vowel[rand(vowel.length)];
+
+    for (let i = 0; i < length; i++) {
+      let letterSource = [];
+
+      if(firstLetterIsVowel) {
+        if(isEven(i)) {
+          letterSource = consonants;
+        } else {
+          letterSource = vowels;
+        }
+      } else {
+        if(isEven(i)) {
+          letterSource = vowels;
+        } else {
+          letterSource = consonants;
+        }
+      }
+
+      brand += letterSource[rand(letterSource.length)];
     }
+
     brands.push(firstLetter + brand);
   }
   return brands;
